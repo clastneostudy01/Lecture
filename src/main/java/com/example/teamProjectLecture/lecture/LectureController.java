@@ -1,5 +1,56 @@
 package com.example.teamProjectLecture.lecture;
 
-public class LectureController {
+import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+//import com.example.teamProjectLecture.configuration.ApiConfiguration;
+
+
+@RestController
+public class LectureController {
+	
+	private LectureRepository lectureRepo;
+	
+	
+	
+//	@Autowired
+//	private ApiConfiguration apiConfig;
+	
+	@Autowired
+	public LectureController(LectureRepository lectureRepo) {
+		this.lectureRepo = lectureRepo;
+	}
+	
+	
+	
+	
+	// 프론트엔드 통신
+	@RequestMapping(value="/lectures", method=RequestMethod.GET)
+	public List<Lecture> getLectureList(HttpServletRequest req){
+		List<Lecture> list = lectureRepo.findAll(Sort.by("id").descending());
+		return list;
+	}
+	
+	
+	@RequestMapping(value="/lectures/{id}", method=RequestMethod.GET)
+	public Lecture getLectureDetail(@PathVariable("id") long id, HttpServletResponse res) {
+		Lecture lecture = lectureRepo.findById(id).orElse(null);
+		
+		if(lecture == null) {
+			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return null;
+		}
+		
+		return lecture;
+	}
+	
 }
