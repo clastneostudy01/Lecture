@@ -21,8 +21,10 @@ public interface LectureRepository
 		/* https://docs.spring.io/spring-data/jpa/docs/1.5.0.RELEASE/reference/html/jpa.repositories.html */
 		/* 2.3.2 Query creation */
 		
-		public List<Lecture> findbyId(long id);
 		public List<Lecture> getList(Pageable pageable);
+		
+		
+		public List<Lecture> findByCategory(String category);
 	
 		// 연관강의 검색, 고민
 		// public List<Lecture> findRelatedLectureByStuff(stuff.id String);

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 //import com.example.teamProjectLecture.configuration.ApiConfiguration;
@@ -52,5 +53,14 @@ public class LectureController {
 		
 		return lecture;
 	}
+	
+//	@RequestMapping(value="/lectures/search/category", method=RequestMethod.GET)
+//	public List<Lecture> getLecturesByName(@RequestParam("keyword") String keyword){
+//		
+//		
+//		// for문으로 텍스트 단어단위로 끊어서 검색어 처리
+//		return lectureRepo.findBy(keyword);
+//	}
+
 	
 }
