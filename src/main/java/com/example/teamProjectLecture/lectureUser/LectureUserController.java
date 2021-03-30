@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,14 +27,14 @@ public class LectureUserController {
 		this.lectureUserRepo = lectureUserRepo;
 	}
 
-
-	@RequestMapping(value="/lecture-users", method=RequestMethod.GET)
-	public List<LectureUser> getLectureUsers(HttpServletRequest req){
-		
-		List<LectureUser> list = lectureUserRepo.findAll(Sort.by("id").descending());		
-		return list;
-	}
-		
+//	쓸 일 없지?
+//	@RequestMapping(value="/lecture-users", method=RequestMethod.GET)
+//	public List<LectureUser> getLectureUsers(HttpServletRequest req){
+//		
+//		List<LectureUser> list = lectureUserRepo.findAll(Sort.by("id").descending());		
+//		return list;
+//	}
+	
 	@RequestMapping(value="/lecture-users", method=RequestMethod.POST)
 	public LectureUser subscribe(@RequestBody LectureUser lectureUser) {
 
@@ -44,21 +45,27 @@ public class LectureUserController {
 		return lectureUser;
 	}
 	
+	@RequestMapping(value="/lecture-users/subscribed", method=RequestMethod.GET)
+	public List<LectureUser> getLectureUserListPaging(HttpServletRequest req){
+		List <LectureUser> list = lectureUserRepo.findAll(PageRequest.of(0, 0,Sort.by("id").descending())).toList();
+		return list;
+	}
+	
+	
 	@RequestMapping(value="/lecture-users/{id}", method=RequestMethod.DELETE)
-	public boolean unSubscribing(@PathVariable("id") long id, HttpServletResponse res) {
+	public boolean unSubscribe(@PathVariable("id") long id, HttpServletResponse res) {
 		System.out.println(id);
 		
-		LectureUser lectureUser = lectureUserRepo.findById(id).orElse(null);
+		LectureUser lectureUser = lectureUserRepo.findByLectureId(id);
 		
 		if(lectureUser == null) {
 			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			return false;
 		}
-		
-		
 		lectureUserRepo.deleteById(id);
 		return true;
 	}
+	
 	
 	
 	

@@ -10,6 +10,12 @@ import org.springframework.data.domain.Pageable;
 public interface LectureUserRepository 
 
 	extends JpaRepository<LectureUser, Long>{
-		
-		public List<LectureUser> getList(Pageable pageable);
+
+	
+	public LectureUser findByLectureId(long lectureId);
+	
+	
+	
+	// 없어도 돌아감
+	// public List<LectureUser> getList(Pageable pageable);
 }

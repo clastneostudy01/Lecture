@@ -39,10 +39,7 @@ public class Lecture {
 	private String title;
 	private String summary;
 	private String videoSRC;
-	private String imageSRC;
-
-	
-	
+	private String imageSRC;	
 	private String category;
 
 

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,18 +33,26 @@ public class LectureController {
 	}
 	
 	
+	@RequestMapping(value="/lectures", method=RequestMethod.POST)
+	public Lecture addLecture(@RequestBody Lecture lecture) {
+		lectureRepo.save(lecture);
+		return lecture;
+	}
+	
+	
+	
 	
 	
 	// 프론트엔드 통신
 	@RequestMapping(value="/lectures", method=RequestMethod.GET)
-	public List<Lecture> getLectureList(HttpServletRequest req){
+	public List<Lecture> list(HttpServletRequest req){
 		List<Lecture> list = lectureRepo.findAll(Sort.by("id").descending());
 		return list;
 	}
 	
 	
 	@RequestMapping(value="/lectures/{id}", method=RequestMethod.GET)
-	public Lecture getLectureDetail(@PathVariable("id") long id, HttpServletResponse res) {
+	public Lecture detail(@PathVariable("id") long id, HttpServletResponse res) {
 		Lecture lecture = lectureRepo.findById(id).orElse(null);
 		
 		if(lecture == null) {
