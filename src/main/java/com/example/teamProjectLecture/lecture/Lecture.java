@@ -46,6 +46,9 @@ public class Lecture {
 	private String category;
 
 
+// TTTTTTTTTTTTTTTTTTTT
+	
+	
 	
 // 데이터 형태 변경 고려중
 //	@ManyToMany
