@@ -1,5 +1,7 @@
 package com.example.teamProjectLecture.lectureUser;
 
+import java.awt.SystemColor;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.teamProjectLecture.lecture.Lecture;
+import com.example.teamProjectLecture.lecture.LectureRepository;
 import com.example.teamProjectLecture.lectureUser.LectureUser;
 import com.example.teamProjectLecture.lectureUser.LectureUserRepository;
 
@@ -21,10 +25,12 @@ import com.example.teamProjectLecture.lectureUser.LectureUserRepository;
 public class LectureUserController {
 	
 	private LectureUserRepository lectureUserRepo;
+	private LectureRepository lectureRepo;
 	
 	@Autowired
-	public LectureUserController(LectureUserRepository lectureUserRepo) {
+	public LectureUserController(LectureUserRepository lectureUserRepo, LectureRepository lectureRepo) {
 		this.lectureUserRepo = lectureUserRepo;
+		this.lectureRepo = lectureRepo;
 	}
 
 //	쓸 일 없지?
@@ -35,9 +41,26 @@ public class LectureUserController {
 //		return list;
 //	}
 	
-	@RequestMapping(value="/lecture-users", method=RequestMethod.POST)
-	public LectureUser subscribe(@RequestBody LectureUser lectureUser) {
-
+	
+	@RequestMapping(value="/lecture-users/{lectureId}", method=RequestMethod.POST)
+	public LectureUser subscribe(@PathVariable("lectureId") long lectureId, @RequestBody LectureUser lectureUser, HttpServletResponse res) {
+		// 임시 데이터
+		long userId = 1;
+		
+		if(lectureUserRepo.findByLectureIdAndUserId(lectureId, userId) != (null)) {
+			System.out.println("이미 구독한 강의");
+			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			return null;
+		}
+		
+		Lecture lecture = lectureRepo.findById(lectureId);
+		lectureUser.setUserId(userId);
+		lectureUser.setLectureId(lectureId);
+		lectureUser.setLectureTitle(lecture.getTitle());
+		lectureUser.setLectureSummary(lecture.getSummary());
+		lectureUser.setLectureImageSRC(lecture.getImageSRC());
+		lectureUser.setSubscribedTime(new Date().getTime());
+		
 		System.out.println(lectureUser);
 		lectureUserRepo.save(lectureUser);
 		
@@ -47,7 +70,7 @@ public class LectureUserController {
 	
 	@RequestMapping(value="/lecture-users/subscribed", method=RequestMethod.GET)
 	public List<LectureUser> getLectureUserListPaging(HttpServletRequest req){
-		List <LectureUser> list = lectureUserRepo.findAll(PageRequest.of(0, 0,Sort.by("id").descending())).toList();
+		List <LectureUser> list = lectureUserRepo.findAll(Sort.by("id"));
 		return list;
 	}
 	

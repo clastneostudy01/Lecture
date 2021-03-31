@@ -2,6 +2,7 @@ package com.example.teamProjectLecture.lecture;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,8 @@ public interface LectureRepository
 	// <entity타입, id타입>
 	extends JpaRepository<Lecture, Long> {
 		
+		public Lecture findById(long id);
+	
 		// findByName
 		// find: select ... from .. 
 		// ByName: where name = ?1(매개변수값)
@@ -20,7 +23,10 @@ public interface LectureRepository
 		
 		/* https://docs.spring.io/spring-data/jpa/docs/1.5.0.RELEASE/reference/html/jpa.repositories.html */
 		/* 2.3.2 Query creation */
-//		
+	
+//		public Page<Lecture> getPagedList(Pageable pageable);
+	
+	
 //		public List<Lecture> findByCategory(String category);
 //	
 		// 연관강의 검색, 고민

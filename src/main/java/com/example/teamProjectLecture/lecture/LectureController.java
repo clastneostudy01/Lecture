@@ -1,11 +1,14 @@
 package com.example.teamProjectLecture.lecture;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,24 +43,21 @@ public class LectureController {
 	}
 	
 	
-	
-	
-	
-	// 프론트엔드 통신
 	@RequestMapping(value="/lectures", method=RequestMethod.GET)
-	public List<Lecture> list(HttpServletRequest req){
-		List<Lecture> list = lectureRepo.findAll(Sort.by("id").descending());
+	public List<Lecture> list(){
+		List<Lecture> list = lectureRepo.findAll(Sort.by("id"));
+		
+		System.out.println("List 보내는 중");
+//		System.out.println(list);
 		return list;
 	}
 	
-	
 	@RequestMapping(value="/lectures/{id}", method=RequestMethod.GET)
 	public Lecture detail(@PathVariable("id") long id, HttpServletResponse res) {
-		Lecture lecture = lectureRepo.findById(id).orElse(null);
+		Lecture lecture = lectureRepo.findById(id);
 		
 		if(lecture == null) {
 			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			return null;
 		}
 		
 		return lecture;
