@@ -1,6 +1,5 @@
 package com.example.teamProjectLecture.lectureUser;
 
-import java.awt.SystemColor;
 import java.util.Date;
 import java.util.List;
 
@@ -8,29 +7,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.teamProjectLecture.lecture.Lecture;
 import com.example.teamProjectLecture.lecture.LectureRepository;
-import com.example.teamProjectLecture.lectureUser.LectureUser;
-import com.example.teamProjectLecture.lectureUser.LectureUserRepository;
 
 @RestController
 public class LectureUserController {
 	
+	// 유저정보 하드코딩
+	final long userId = 1;
+	
 	private LectureUserRepository lectureUserRepo;
 	private LectureRepository lectureRepo;
+	private LectureUserService service;
 	
 	@Autowired
-	public LectureUserController(LectureUserRepository lectureUserRepo, LectureRepository lectureRepo) {
+	public LectureUserController(LectureUserRepository lectureUserRepo, LectureRepository lectureRepo, LectureUserService service) {
 		this.lectureUserRepo = lectureUserRepo;
 		this.lectureRepo = lectureRepo;
+		this.service = service;
 	}
 
 //	쓸 일 없지?
@@ -42,50 +42,77 @@ public class LectureUserController {
 //	}
 	
 	
-	@RequestMapping(value="/lecture-users/{lectureId}", method=RequestMethod.POST)
-	public LectureUser subscribe(@PathVariable("lectureId") long lectureId, @RequestBody LectureUser lectureUser, HttpServletResponse res) {
-		// 임시 데이터
-		long userId = 1;
+	@RequestMapping(value="/lecture-users", method=RequestMethod.GET)
+	public List<LectureUser> getLectureUserList(HttpServletRequest req){
+		List <LectureUser> list = lectureUserRepo.findAll(Sort.by("id"));
+		return list;
+	}
+	
+	@RequestMapping(value="/lecture-users/{lectureId}", method=RequestMethod.GET)
+	public boolean isSubscribed(@PathVariable("lectureId") long lectureId){
+		LectureUser lectureUser = lectureUserRepo.findByLectureIdAndUserId(lectureId, userId);
 		
-		if(lectureUserRepo.findByLectureIdAndUserId(lectureId, userId) != (null)) {
-			System.out.println("이미 구독한 강의");
+		if(lectureUser != null) {
+//			System.out.println("구독중");
+			return true;
+		}
+//		System.out.println("미구독");
+		return false;
+	}	
+	
+	@RequestMapping(value="/lecture-users/{lectureId}", method=RequestMethod.POST)
+	public LectureUser subscribe(@PathVariable("lectureId") long lectureId, HttpServletResponse res) {
+		
+		if(lectureUserRepo.findByLectureIdAndUserId(lectureId, userId) != null) {
+//			System.out.println("이미 구독한 강의");
 			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			return null;
 		}
-		
+
 		Lecture lecture = lectureRepo.findById(lectureId);
+		
+		LectureUser lectureUser = new LectureUser();
+
+		lectureUser.setSubscribedTime(new Date().getTime());
+		
 		lectureUser.setUserId(userId);
 		lectureUser.setLectureId(lectureId);
 		lectureUser.setLectureTitle(lecture.getTitle());
 		lectureUser.setLectureSummary(lecture.getSummary());
 		lectureUser.setLectureImageSRC(lecture.getImageSRC());
-		lectureUser.setSubscribedTime(new Date().getTime());
+
 		
-		System.out.println(lectureUser);
+//		System.out.println(lectureUser);
 		lectureUserRepo.save(lectureUser);
 		
-		System.out.println("LectureUser Saving");
+		
+		System.out.println(lectureUser);
+		service.sendSubscribe(lectureUser);
+		System.out.println("queuing");
+		
+//		System.out.println("LectureUser Saving");
 		return lectureUser;
 	}
 	
-	@RequestMapping(value="/lecture-users/subscribed", method=RequestMethod.GET)
-	public List<LectureUser> getLectureUserListPaging(HttpServletRequest req){
-		List <LectureUser> list = lectureUserRepo.findAll(Sort.by("id"));
-		return list;
-	}
-	
-	
-	@RequestMapping(value="/lecture-users/{id}", method=RequestMethod.DELETE)
-	public boolean unSubscribe(@PathVariable("id") long id, HttpServletResponse res) {
-		System.out.println(id);
+	@RequestMapping(value="/lecture-users/{lectureId}", method=RequestMethod.DELETE)
+	public boolean unSubscribe(@PathVariable("lectureId") long lectureId, HttpServletResponse res) {
+//		System.out.println(lectureId);
 		
-		LectureUser lectureUser = lectureUserRepo.findByLectureId(id);
+		LectureUser lectureUser = lectureUserRepo.findByLectureIdAndUserId(lectureId, userId);
 		
 		if(lectureUser == null) {
 			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+//			System.out.println("구독하지 않은 강의");
 			return false;
 		}
-		lectureUserRepo.deleteById(id);
+		
+		System.out.println(lectureUser);
+		service.sendUnSubscribe(lectureUser);
+		System.out.println("queuing");
+		
+		lectureUserRepo.deleteById(lectureUser.getId());
+//		System.out.println("구독해제");
+		
 		return true;
 	}
 	

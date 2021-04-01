@@ -19,50 +19,45 @@ import org.springframework.web.bind.annotation.RestController;
 
 //import com.example.teamProjectLecture.configuration.ApiConfiguration;
 
-
 @RestController
 public class LectureController {
-	
+
 	private LectureRepository lectureRepo;
-	
-	
-	
+
 //	@Autowired
 //	private ApiConfiguration apiConfig;
-	
+
 	@Autowired
 	public LectureController(LectureRepository lectureRepo) {
 		this.lectureRepo = lectureRepo;
 	}
-	
-	
-	@RequestMapping(value="/lectures", method=RequestMethod.POST)
+
+	@RequestMapping(value = "/lectures", method = RequestMethod.POST)
 	public Lecture addLecture(@RequestBody Lecture lecture) {
 		lectureRepo.save(lecture);
 		return lecture;
 	}
-	
-	
-	@RequestMapping(value="/lectures", method=RequestMethod.GET)
-	public List<Lecture> list(){
+
+	@RequestMapping(value = "/lectures", method = RequestMethod.GET)
+	public List<Lecture> list() {
 		List<Lecture> list = lectureRepo.findAll(Sort.by("id"));
-		
-		System.out.println("List 보내는 중");
+
+//		System.out.println("List 보내는 중");
 //		System.out.println(list);
 		return list;
 	}
-	
-	@RequestMapping(value="/lectures/{id}", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/lectures/{id}", method = RequestMethod.GET)
 	public Lecture detail(@PathVariable("id") long id, HttpServletResponse res) {
 		Lecture lecture = lectureRepo.findById(id);
-		
-		if(lecture == null) {
+
+		if (lecture == null) {
 			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		}
-		
+
 		return lecture;
 	}
-	
+
 //	@RequestMapping(value="/lectures/search/category", method=RequestMethod.GET)
 //	public List<Lecture> getLecturesByName(@RequestParam("keyword") String keyword){
 //		
@@ -71,5 +66,4 @@ public class LectureController {
 //		return lectureRepo.findBy(keyword);
 //	}
 
-	
 }
