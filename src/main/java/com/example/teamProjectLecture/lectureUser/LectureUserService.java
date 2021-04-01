@@ -26,11 +26,11 @@ public class LectureUserService {
 		}
 	}
 	
-	public void sendUnSubscribe(LectureUser user) {
+	public void sendUnSubscribe(long lectureId) {
 		System.out.println("---- Sending unSubscribe ----");
 		
 		try {
-			rabbit.convertAndSend("lecture.unsubscribe",user);
+			rabbit.convertAndSend("lecture.unsubscribe",lectureId);
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());

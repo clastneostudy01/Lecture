@@ -107,7 +107,7 @@ public class LectureUserController {
 		}
 		
 		System.out.println(lectureUser);
-		service.sendUnSubscribe(lectureUser);
+		service.sendUnSubscribe(lectureUser.getLectureId());
 		System.out.println("queuing");
 		
 		lectureUserRepo.deleteById(lectureUser.getId());
