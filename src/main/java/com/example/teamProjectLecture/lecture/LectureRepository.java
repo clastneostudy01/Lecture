@@ -2,8 +2,6 @@ package com.example.teamProjectLecture.lecture;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -30,5 +28,7 @@ public interface LectureRepository
 //		public List<Lecture> findByCategory(String category);
 //	
 		// 연관강의 검색, 고민
-		// public List<Lecture> findRelatedLectureByStuff(stuff.id String);
+		// public List<Lecture> findRelatedLectureByStuff(String stuff.id);
+		
+		public List<Lecture> findByCategory(String category);
 }
