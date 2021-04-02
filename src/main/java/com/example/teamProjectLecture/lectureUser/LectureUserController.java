@@ -117,6 +117,18 @@ public class LectureUserController {
 	}
 	
 	
+//  이어서 보기 추가할까 했는데 유튜브라 애매한듯.
+//	@RequestMapping(value="lecture-users/{lectureId}",method=RequestMethod.PATCH)
+//	public LectureUser stopViewing(@PathVariable("lectureId") long lectureId, HttpServletResponse res) {
+//		
+//		LectureUser lectureUser = lectureUserRepo.findByLectureIdAndUserId(lectureId, userId);
+//
+//		
+//		
+//		
+//		return null;
+//		
+//	}
 	
 	
 }

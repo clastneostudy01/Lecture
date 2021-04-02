@@ -28,5 +28,5 @@ public class LectureUser {
 	private String lectureImageSRC;
 	
 	private long subscribedTime;
-	
+//	private long lecturePlayTime;
 }
