@@ -1,10 +1,17 @@
 package com.example.teamProjectLecture.lecture;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+//import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import com.example.teamProjectLecture.lecture.stuff.Stuff;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,7 +51,7 @@ public class Lecture {
 	
 	
 // 데이터 형태 변경 고려중
-//	@ManyToMany
-//	@JoinColumn(name="lectureId")
-//	private List<LectureRecipe> recipes;
+	@OneToMany
+	@JoinColumn(name="lectureId")
+	private List<Stuff> stuffs;
 }

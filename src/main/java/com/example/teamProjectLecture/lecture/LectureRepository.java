@@ -27,7 +27,7 @@ public interface LectureRepository
 	
 //		public List<Lecture> findByCategory(String category);
 //	
-		// 연관강의 검색, 고민
+		// 재료 연관강의 검색, 고민
 		// public List<Lecture> findRelatedLectureByStuff(String stuff.id);
 		
 		public List<Lecture> findByCategory(String category);

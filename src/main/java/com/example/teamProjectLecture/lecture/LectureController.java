@@ -61,5 +61,4 @@ public class LectureController {
 		List<Lecture> list = lectureRepo.findByCategory(keyword);
 		return list;
 	}
-
 }
