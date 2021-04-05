@@ -56,9 +56,9 @@ public class LectureController {
 
 	// GET /lectures/search/category?keyword=굽기
 	@RequestMapping(value="/lectures/search/category", method=RequestMethod.GET)
-	public List<Lecture> findByCategory(@RequestParam("keyword") String keyword){
+	public List<Lecture> findByCategory(@RequestParam("keyword") String category){
 		
-		List<Lecture> list = lectureRepo.findByCategory(keyword);
+		List<Lecture> list = lectureRepo.findByCategory(category);
 		return list;
 	}
 	

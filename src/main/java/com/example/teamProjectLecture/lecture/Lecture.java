@@ -41,8 +41,8 @@ public class Lecture {
 	@Column(columnDefinition = "TEXT") // TEXT
 	private String title;
 	private String summary;
-	private String videoSRC;
-	private String imageSRC;	
+	private String videoSrc;
+	private String imageSrc;
 	private String category;
 
 

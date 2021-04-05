@@ -25,7 +25,7 @@ public class LectureUser {
 	@Column(columnDefinition = "TEXT")	// TEXT
 	private String lectureTitle;
 	private String lectureSummary;
-	private String lectureImageSRC;
+	private String lectureImageSrc;
 	
 	private long subscribedTime;
 //	private long lecturePlayTime;

@@ -14,7 +14,7 @@ public class LectureUserService {
 		this.rabbit = rabbit;
 	}
 	
-	public void sendSubscribe(LectureUser user) {
+	public void setSubscribe(LectureUser user) {
 		System.out.println("---- Sending Subscribe ----");
 		System.out.println(user);
 		
@@ -26,7 +26,7 @@ public class LectureUserService {
 		}
 	}
 	
-	public void sendUnSubscribe(long lectureId) {
+	public void setUnSubscribe(long lectureId) {
 		System.out.println("---- Sending unSubscribe ----");
 		
 		try {

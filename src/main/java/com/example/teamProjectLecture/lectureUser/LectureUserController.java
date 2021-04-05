@@ -43,7 +43,7 @@ public class LectureUserController {
 	
 	
 	@RequestMapping(value="/lecture-users", method=RequestMethod.GET)
-	public List<LectureUser> getLectureUserList(HttpServletRequest req){
+	public List<LectureUser> list(HttpServletRequest req){
 		List <LectureUser> list = lectureUserRepo.findAll(Sort.by("id"));
 		return list;
 	}
@@ -79,7 +79,7 @@ public class LectureUserController {
 		lectureUser.setLectureId(lectureId);
 		lectureUser.setLectureTitle(lecture.getTitle());
 		lectureUser.setLectureSummary(lecture.getSummary());
-		lectureUser.setLectureImageSRC(lecture.getImageSRC());
+		lectureUser.setLectureImageSrc(lecture.getImageSrc());
 
 		
 //		System.out.println(lectureUser);
@@ -87,7 +87,7 @@ public class LectureUserController {
 		
 		
 		System.out.println(lectureUser);
-		service.sendSubscribe(lectureUser);
+		service.setSubscribe(lectureUser);
 		System.out.println("queuing");
 		
 //		System.out.println("LectureUser Saving");
@@ -107,7 +107,7 @@ public class LectureUserController {
 		}
 		
 		System.out.println(lectureUser);
-		service.sendUnSubscribe(lectureUser.getLectureId());
+		service.setUnSubscribe(lectureUser.getLectureId());
 		System.out.println("queuing");
 		
 		lectureUserRepo.deleteById(lectureUser.getId());
