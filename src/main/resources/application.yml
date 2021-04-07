@@ -9,6 +9,6 @@ spring:  application:    name: lecture  profiles:    active: default
     username: admin
     password: password123!
     driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:    show-sql: true # 데이터처리할 대 SQL문을 보여줌
-    generate-ddl: true # 클래스 정의에 따른 테이블 및 데이터베이스 객체 생성    properties:      hibernate:        jdbc:          batch_size: 5        order_inserts: true        order_updates: true        generate_statistics: true#https://woowabros.github.io/experience/2020/09/23/hibernate-batch.html  rabbitmq:    # 내 ec2    #host: ec2-3-36-141-39.ap-northeast-2.compute.amazonaws.com        # 병재형 ec2    host: ec2-3-34-127-170.ap-northeast-2.compute.amazonaws.com    username: rabbitmq    password: password123
+  jpa:#    show-sql: true # 데이터를 처리할 때 SQL문을 보여줌
+    generate-ddl: true # 클래스 정의에 따른 테이블 및 데이터베이스 객체 생성    properties:      hibernate:        jdbc:#          batch_size: 5#        order_inserts: true#        order_updates: true        generate_statistics: true#https://woowabros.github.io/experience/2020/09/23/hibernate-batch.html  redis:    host: 192.168.0.29    port: 6379  rabbitmq:    # 내 ec2    #host: ec2-3-36-141-39.ap-northeast-2.compute.amazonaws.com        # 두희 ec2    host: ec2-13-125-229-154.ap-northeast-2.compute.amazonaws.com    username: rabbitmq    password: password123
 api:  base-path: http://localhost:8888---spring:  profiles: prod    api:  base-path: http://3.36.141.39:8888          

@@ -18,7 +18,7 @@ public class LectureUser {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	private long userId;
+	private String userId;
 	private long lectureId;
 
 	// varchar(255)

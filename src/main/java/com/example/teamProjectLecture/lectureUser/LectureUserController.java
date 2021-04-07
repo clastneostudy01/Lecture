@@ -15,12 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.teamProjectLecture.lecture.Lecture;
 import com.example.teamProjectLecture.lecture.LectureRepository;
+import com.example.teamProjectLecture.security.Auth;
+import com.example.teamProjectLecture.security.Profile;
 
 @RestController
 public class LectureUserController {
 	
 	// 유저정보 하드코딩
-	final long userId = 1;
 	
 	private LectureUserRepository lectureUserRepo;
 	private LectureRepository lectureRepo;
@@ -44,12 +45,22 @@ public class LectureUserController {
 	
 	@RequestMapping(value="/lecture-users", method=RequestMethod.GET)
 	public List<LectureUser> list(HttpServletRequest req){
+				
 		List <LectureUser> list = lectureUserRepo.findAll(Sort.by("id"));
 		return list;
 	}
 	
+	@Auth
 	@RequestMapping(value="/lecture-users/{lectureId}", method=RequestMethod.GET)
-	public boolean isSubscribed(@PathVariable("lectureId") long lectureId){
+	public boolean isSubscribed(@PathVariable("lectureId") long lectureId, HttpServletRequest req){
+		
+		System.out.println("-------- controller method profile ---------");
+		Profile profile = (Profile) req.getAttribute("profile");
+		System.out.println(profile);
+		
+		
+		String userId = profile.getUserId();
+		
 		LectureUser lectureUser = lectureUserRepo.findByLectureIdAndUserId(lectureId, userId);
 		
 		if(lectureUser != null) {
@@ -60,8 +71,17 @@ public class LectureUserController {
 		return false;
 	}	
 	
+	@Auth
 	@RequestMapping(value="/lecture-users/{lectureId}", method=RequestMethod.POST)
-	public LectureUser subscribe(@PathVariable("lectureId") long lectureId, HttpServletResponse res) {
+	public LectureUser subscribe(@PathVariable("lectureId") long lectureId, HttpServletRequest req, HttpServletResponse res) {
+		
+		System.out.println("-------- controller method profile ---------");
+		Profile profile = (Profile) req.getAttribute("profile");
+		System.out.println(profile);
+		
+		String userId = profile.getUserId();
+		
+		System.out.println(userId);
 		
 		if(lectureUserRepo.findByLectureIdAndUserId(lectureId, userId) != null) {
 //			System.out.println("이미 구독한 강의");
@@ -94,9 +114,15 @@ public class LectureUserController {
 		return lectureUser;
 	}
 	
+	@Auth
 	@RequestMapping(value="/lecture-users/{lectureId}", method=RequestMethod.DELETE)
-	public boolean unSubscribe(@PathVariable("lectureId") long lectureId, HttpServletResponse res) {
-//		System.out.println(lectureId);
+	public boolean unSubscribe(@PathVariable("lectureId") long lectureId, HttpServletRequest req, HttpServletResponse res) {
+		
+		System.out.println("-------- controller method profile ---------");
+		Profile profile = (Profile) req.getAttribute("profile");
+		System.out.println(profile);
+		
+		String userId = profile.getUserId();
 		
 		LectureUser lectureUser = lectureUserRepo.findByLectureIdAndUserId(lectureId, userId);
 		
