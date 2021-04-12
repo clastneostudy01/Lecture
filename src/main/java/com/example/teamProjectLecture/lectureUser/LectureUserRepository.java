@@ -12,4 +12,5 @@ public interface LectureUserRepository
 //	public LectureUser findByUserId(long userId);
 	public LectureUser findByLectureIdAndUserId(long lectureId, String userId);
 	
+	
 }

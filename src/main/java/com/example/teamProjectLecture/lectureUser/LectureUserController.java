@@ -133,7 +133,7 @@ public class LectureUserController {
 		}
 		
 		System.out.println(lectureUser);
-		service.setUnSubscribe(lectureUser.getLectureId());
+		service.setUnSubscribe(lectureUser);
 		System.out.println("queuing");
 		
 		lectureUserRepo.deleteById(lectureUser.getId());

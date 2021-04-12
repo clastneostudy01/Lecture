@@ -14,23 +14,23 @@ public class LectureUserService {
 		this.rabbit = rabbit;
 	}
 	
-	public void setSubscribe(LectureUser user) {
+	public void setSubscribe(LectureUser lectureUser) {
 		System.out.println("---- Sending Subscribe ----");
-		System.out.println(user);
+		System.out.println(lectureUser);
 		
 		try {
-			rabbit.convertAndSend("lecture.subscribe",user);
+			rabbit.convertAndSend("lecture.subscribe",lectureUser);
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
 	
-	public void setUnSubscribe(long lectureId) {
+	public void setUnSubscribe(LectureUser lectureUser) {
 		System.out.println("---- Sending unSubscribe ----");
 		
 		try {
-			rabbit.convertAndSend("lecture.unsubscribe",lectureId);
+			rabbit.convertAndSend("lecture.unsubscribe", lectureUser);
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
