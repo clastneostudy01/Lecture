@@ -1,5 +1,6 @@
 package com.example.teamProjectLecture.lecture;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,10 +39,12 @@ public class LectureController {
 	@RequestMapping(value = "/lectures", method = RequestMethod.GET)
 	public List<Lecture> list() {
 		List<Lecture> list = lectureRepo.findAll(Sort.by("id"));
-
+		
 //		System.out.println("List 보내는 중");
 //		System.out.println(list);
-		return list;
+		
+		return new ArrayList<Lecture>();
+		//return list;
 	}
 
 	@RequestMapping(value = "/lectures/{id}", method = RequestMethod.GET)
