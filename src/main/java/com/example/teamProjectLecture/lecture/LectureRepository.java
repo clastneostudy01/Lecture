@@ -14,7 +14,7 @@ public interface LectureRepository
 	
 	// <entity타입, id타입>
 	extends JpaRepository<Lecture, Long> {
-	
+		
 		public Lecture findById(long id);
 	
 		// findByName
