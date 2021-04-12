@@ -103,7 +103,7 @@ public class LectureUserController {
 		lectureUser.setLectureImageSrc(lecture.get().getImageSrc());
 
 		
-//		System.out.println(lectureUser);
+		System.out.println(lectureUser);
 		lectureUserRepo.save(lectureUser);
 		
 		
