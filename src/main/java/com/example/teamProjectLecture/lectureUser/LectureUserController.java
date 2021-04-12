@@ -2,6 +2,7 @@ package com.example.teamProjectLecture.lectureUser;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -89,7 +90,7 @@ public class LectureUserController {
 			return null;
 		}
 
-		Lecture lecture = lectureRepo.findById(lectureId);
+		Optional <Lecture> lecture = lectureRepo.findById(lectureId);
 		
 		LectureUser lectureUser = new LectureUser();
 
@@ -97,9 +98,9 @@ public class LectureUserController {
 		
 		lectureUser.setUserId(userId);
 		lectureUser.setLectureId(lectureId);
-		lectureUser.setLectureTitle(lecture.getTitle());
-		lectureUser.setLectureSummary(lecture.getSummary());
-		lectureUser.setLectureImageSrc(lecture.getImageSrc());
+		lectureUser.setLectureTitle(lecture.get().getTitle());
+		lectureUser.setLectureSummary(lecture.get().getSummary());
+		lectureUser.setLectureImageSrc(lecture.get().getImageSrc());
 
 		
 //		System.out.println(lectureUser);

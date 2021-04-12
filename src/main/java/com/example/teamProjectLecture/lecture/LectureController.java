@@ -1,6 +1,7 @@
 package com.example.teamProjectLecture.lecture;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -45,13 +46,13 @@ public class LectureController {
 
 	@RequestMapping(value = "/lectures/{id}", method = RequestMethod.GET)
 	public Lecture detail(@PathVariable("id") long id, HttpServletResponse res) {
-		Lecture lecture = lectureRepo.findById(id);
+		Optional <Lecture> lecture = lectureRepo.findById(id);
 
-		if (lecture == null) {
+		if (lecture.isEmpty()) {
 			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		}
 
-		return lecture;
+		return lecture.get();
 	}
 
 	// 이후 미사용?
@@ -66,14 +67,14 @@ public class LectureController {
 	
 	@RequestMapping(value="/lectures/{id}/recommand", method = RequestMethod.GET)
 	public List<Lecture> recommandedLecture(@PathVariable("id") long id, HttpServletResponse res){
-		Lecture lecture = lectureRepo.findById(id);		
+		Optional <Lecture> lecture = lectureRepo.findById(id);
 		
-		if(lecture==null) {
+		if(lecture.isEmpty()) {
 			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			return null;
 		}
 		
-		List<Lecture> recList = lectureRepo.recommandByCategory(lecture.getId(), lecture.getCategory());
+		List<Lecture> recList = lectureRepo.recommandByCategory(lecture.get().getId(), lecture.get().getCategory());
 		
 		return recList;		
 	}
