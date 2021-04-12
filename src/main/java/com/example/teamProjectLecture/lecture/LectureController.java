@@ -78,6 +78,4 @@ public class LectureController {
 		return recList;		
 	}
 //	https://ict-nroo.tistory.com/117
-	
-	
 }
