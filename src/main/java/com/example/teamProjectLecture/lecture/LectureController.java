@@ -43,8 +43,8 @@ public class LectureController {
 //		System.out.println("List 보내는 중");
 //		System.out.println(list);
 		
-		return new ArrayList<Lecture>();
-		//return list;
+//		return new ArrayList<Lecture>();
+		return list;
 	}
 
 	@RequestMapping(value = "/lectures/{id}", method = RequestMethod.GET)
