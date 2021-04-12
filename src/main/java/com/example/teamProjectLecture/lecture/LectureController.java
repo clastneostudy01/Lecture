@@ -60,7 +60,23 @@ public class LectureController {
 		
 		List<Lecture> list = lectureRepo.findByCategory(category);
 		return list;
+	}	
+	
+	
+	@RequestMapping(value="/lectures/{id}/recommand", method = RequestMethod.GET)
+	public List<Lecture> recommandedLecture(@PathVariable("id") long id, HttpServletResponse res){
+		Lecture lecture = lectureRepo.findById(id);		
+		
+		if(lecture==null) {
+			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return null;
+		}
+		
+		List<Lecture> recList = lectureRepo.recommandByCategory(lecture.getId(), lecture.getCategory());
+		
+		return recList;		
 	}
+//	https://ict-nroo.tistory.com/117
 	
 	
 }
