@@ -24,3 +24,4 @@ public class Stuff {
 	private String name;
 	private String unit;
 }
+
